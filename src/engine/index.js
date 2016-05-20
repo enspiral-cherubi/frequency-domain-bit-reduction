@@ -20,6 +20,7 @@ class Engine {
   start () {
     loop((t) => {
       this.environment.render()
+      this.freqBitReducer.play()
     }).start()
   }
 
