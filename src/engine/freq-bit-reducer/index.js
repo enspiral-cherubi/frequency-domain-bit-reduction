@@ -10,8 +10,7 @@ class FreqBitReducer {
     this.context = new (window.AudioContext || window.webkitAudioContext)()
     this.analyser = new Analyser({
       context: this.context,
-      fftSize: 2048,
-      binCount: 1600
+      fftSize: 1024
     })
     this.gainNode = this.context.createGain()
     this.setGain(0.1)
@@ -28,7 +27,8 @@ class FreqBitReducer {
   play () {
     each(this.analyser.getFrequencyData(), (data) => {
       var gain = scale(data.amp, 0, 255, 0.0, 1.0)
-      this.oscillators[data.freq].setGain(gain) })
+      this.oscillators[data.freq].setGain(gain)
+    })
   }
 
   setGain (gain) {
