@@ -13,9 +13,6 @@ class Analyser {
     this.frequencies = range(this.frequencyDataArray.length).map((n) => {
       return parseInt(n * bandSpacing)
     })
-
-    // console.log('this.frequencies: ', this.frequencies)
-    // console.log('this.frequencies.length: ', this.frequencies.length)
   }
 
   getFrequencyData () {

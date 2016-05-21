@@ -1,3 +1,5 @@
+var clientId = process.env.CLIENT_ID
+import SoundcloudAudioInterface from 'soundcloud-audio-interface'
 import $ from 'jquery'
 import Analyser from './analyser.js'
 import scale from 'scale-number-range'
@@ -13,14 +15,16 @@ class FreqBitReducer {
       fftSize: 1024
     })
     this.gainNode = this.context.createGain()
-    this.setGain(0.1)
+    this.setGain(0.01)
     this.output = this.context.destination
     this.gainNode.connect(this.output)
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia
-    navigator.getUserMedia({audio: true}, (stream) => {
-      this.input = this.context.createMediaStreamSource(stream)
-      this.input.connect(this.analyser.node)
-    }, console.log)
+
+    this.scAudioInterface = new SoundcloudAudioInterface({ audioCtx: this.context, clientId: clientId })
+    this.scAudioInterface.setUrl('https://soundcloud.com/rickhignett/arnold-schwarzenegger').then(() => {
+      this.scAudioInterface.source.connect(this.analyser.node)
+      this.scAudioInterface.audio.play()
+    })
+
     this.oscillators = this._generateOscillators()
   }
 
